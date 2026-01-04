@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella Design | Customization</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Poppins Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="100px">
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <img src="images/cart.png" width="30px" height="30px" onclick="goToCart()">
+            <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+
+    <!-- Customization Form -->
+    <div class="pink-background">
+        <div class="container">
+            <div class="row">
+                <div id="shirt-container" class="shirt-container">
+                    <img src="images/tumbler.png" class="tumblerImage">
+                    <br>
+                </div>
+                <div class="col-2">
+                    <div class="customizationapplication" style="height: 700px">
+                        <div class="form-title">
+                            <h4 id="customize">Customize</h4>
+                            <hr id="Customize-Indicator">
+                        </div>
+
+                        <form id="CustomizeForm">
+                            <p class="top">Enter Logo/Image:</p>
+                            <input type="file" id="fileInput" accept="image/*">
+                            <p class="bottom">Logo/Image Position:</p>
+                            <select id="imagePosition">
+                                <option value="">Select Position</option>
+                                <option>Front</option>
+                                <option>Front - Right</option>
+                                <option>Front - Left</option>
+                                <option>Back</option>
+                                <option>Right Sleeve</option>
+                                <option>Left Sleeve</option>
+                            </select>
+                            <p class="top">Enter Your Text:</p>
+                            <input id="customText" type="text">
+                            <p class="bottom">Text Position:</p>
+                            <select id="textPosition">
+                                <option value=""></option>
+                                <option>Front</option>
+                                <option>Front - Right</option>
+                                <option>Front - Left</option>
+                                <option>Back</option>
+                                <option>Right Sleeve</option>
+                                <option>Left Sleeve</option>
+                            </select>
+                            <p class="topbottom">Text Font:</p>
+                            <select id="fontSelect">
+                                <option>Select Font</option>
+                                <option class="arial">Arial</option>
+                                <option class="courier">Courier</option>
+                                <option class="gillsans">Gill Sans</option>
+                                <option class="segoeui">Segoe UI</option>
+                                <option class="timesnewroman">Times New Roman</option>
+                                <option class="lucida">Lucida Sans</option>
+                                <option class="trebuchet">Trebuchet MS</option>
+                                <option class="impact">Impact</option>
+                                <option class="cambria">Cambria</option>
+                                <option class="verdana">Verdana</option>
+                            </select>
+                            <p class="topbottom">Extra Requests:</p>
+                            <textarea id="comments"></textarea>
+                            <button type="submit" class="btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Looking for more products?</h3>
+                    <a href="https://etsy.com/shop/polymerdesignbyella">Visit in Etsy as well!</a>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png">
+                    <p>
+                        The joy of picking the gift, the excitement of knowing that it will be delivered to a loved one's 
+                        front door as a surprise, and the pleasure of knowing they will have a huge smile when they open the 
+                        box... all of it is why my shop exists!
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow for more!</h3>
+                    <a href="https://www.instagram.com/designsbyellac/">Instagram</a>
+                </div>
+            </div>
+
+            <hr>
+            <p class="copyright">Copyright 2026 - CUADROS</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- JavaScript -->
+ <script src="script.js"></script>
+
+<!-- Collect Data from Form -->
+<script>
+    document.getElementById("CustomizeForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+    
+        // Collect data from form
+        const fileInput = document.getElementById("fileInput").value;
+        const imagePosition = document.getElementById("imagePosition").value;
+        const customText = document.getElementById("customText").value;
+        const textPosition = document.getElementById("textPosition").value;
+        const fontSelect = document.getElementById("fontSelect").value;
+        const comments = document.getElementById("comments").value;
+
+        const previewImage = "images/tumbler.png"
+    
+        // For now, use a fixed price. You can calculate this dynamically later
+        const price = 25.00;
+    
+        // Create a cart item object
+        const cartItem = {
+            previewImage: previewImage, // preview image
+            name: "Custom Tumbler",
+            price: price,
+            quantity: 1,
+            details: {
+                size: null,
+                color: null,
+                image: fileInput,
+                imagePosition: imagePosition,
+                customText: customText,
+                textPosition: textPosition,
+                font: fontSelect,
+                comments: comments
+            }
+        };
+    
+        // Get existing cart data or start fresh
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+        // Add new item
+        cart.push(cartItem);
+    
+        // Save back to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+    
+        // Redirect to cart page
+        window.location.href = "cart.html";
+    });
+</script>

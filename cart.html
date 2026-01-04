@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella Design | Shopping Cart</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Poppins Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="100px">
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <img src="images/cart.png" width="30px" height="30px" onclick="goToCart()">
+            <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="small-container">
+        <div class="cart-page">
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+
+                <tbody id="cartBody">
+
+                </tbody>
+            </table>
+
+            <div class="total-price">
+                <table>
+                    <tr>
+                        <td>Subtotal</td>
+                        <td><span id="subtotal">$0.00</span></td>
+                    </tr>
+                    <tr>
+                        <td>Tax</td>
+                        <td><span id="tax">$0.00</span></td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td><span id="total">$0.00</span></td>
+                    </tr>
+                </table>
+            </div>
+            <a href="checkout.html" class="btn">Proceed to Checkout &#8594;</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Looking for more products?</h3>
+                    <a href="https://etsy.com/shop/polymerdesignbyella">Visit in Etsy as well!</a>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png">
+                    <p>
+                        The joy of picking the gift, the excitement of knowing that it will be delivered to a loved one's 
+                        front door as a surprise, and the pleasure of knowing they will have a huge smile when they open the 
+                        box... all of it is why my shop exists!
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow for more!</h3>
+                    <a href="https://www.instagram.com/designsbyellac/">Instagram</a>
+                </div>
+            </div>
+
+            <hr>
+            <p class="copyright">Copyright 2026 - CUADROS</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+<!-- Render items into cart -->
+<script>
+    function renderCart() {
+        const cartBody = document.getElementById("cartBody");
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        cartBody.innerHTML = ""; // clear old rows
+        let subtotal = 0;
+
+        cart.forEach((item, index) => {
+            const tr = document.createElement("tr");
+
+            const itemSubtotal = item.price * item.quantity;
+            subtotal += itemSubtotal;
+
+            tr.innerHTML = `
+                <td>
+                    <div class="cart-info">
+                        <img src="${item.previewImage}">
+                        <div style="max-width: 150px;">
+                            <p style=>${item.name} ${item.details.shirtColor || ''} ${item.details.shirtSize || ''}</p>
+                            <small>Price: $${item.price.toFixed(2)}</small>
+                            <br>
+                            <small style="color: lightgrey;">Logo/Image: ${item.details.image || 'None'} ImagePosition: ${item.details.imagePosition || 'None'} Text: ${item.details.customText || 'None'} TextPosition: ${item.details.textPosition || 'None'} TextFont: ${item.details.font || 'None'} </small>
+                            <br>
+                            <small style="color: lightgrey;">Comments: ${item.details.comments || 'None'}</small><br>
+                            <a href="#" onclick="removeItem(${index});return false;">Remove</a>
+                        </div>
+                    </div>
+                </td>
+                <td style="padding-left: 5px;"><input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)"></td>
+                <td>$${itemSubtotal.toFixed(2)}</td>
+            `;
+
+            cartBody.appendChild(tr);
+        });
+
+        const tax = subtotal * 0.07; // 7% example tax
+        const total = subtotal + tax;
+
+        document.getElementById("subtotal").innerText = `$${subtotal.toFixed(2)}`;
+        document.getElementById("tax").innerText = `$${tax.toFixed(2)}`;
+        document.getElementById("total").innerText = `$${total.toFixed(2)}`;
+    }
+
+    function removeItem(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+    }
+
+    function updateQuantity(index, value) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart[index].quantity = parseInt(value);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+    }
+
+    // Run when page loads
+    window.onload = renderCart;
+</script>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella Design | Account</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Poppins Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="100px">
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <img src="images/cart.png" width="30px" height="30px" onclick="goToCart()">
+            <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+
+    <!-- Account -->
+    <div class="pink-background">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="images/account.JPEG">
+                </div>
+                <div class="col-2">
+                    <div class="form-container">
+                        <div class="form-btn">
+                            <span onclick="login()">Login</span>
+                            <span onclick="register()">Register</span>
+                            <hr id="Indicator">
+                        </div>
+
+                        <form id="LoginForm">
+                            <input type="text" placeholder="Username">
+                            <input type="password" placeholder="Password">
+                            <button type="submit" class="btn">Login</button>
+                            <a href="">Forgot Password?</a>
+                        </form>
+                        <form id="RegForm">
+                            <input type="text" placeholder="Username">
+                            <input type="email" placeholder="Email">
+                            <input type="password" placeholder="Password">
+                            <button type="submit" class="btn">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Looking for more products?</h3>
+                    <a href="https://etsy.com/shop/polymerdesignbyella">Visit in Etsy as well!</a>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png">
+                    <p>
+                        The joy of picking the gift, the excitement of knowing that it will be delivered to a loved one's 
+                        front door as a surprise, and the pleasure of knowing they will have a huge smile when they open the 
+                        box... all of it is why my shop exists!
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow for more!</h3>
+                    <a href="https://www.instagram.com/designsbyellac/">Instagram</a>
+                </div>
+            </div>
+
+            <hr>
+            <p class="copyright">Copyright 2026 - CUADROS</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+<script>
+    LoginForm.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            console.log("");
+        }
+    })
+    RegForm.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+        }
+    })
+</script>

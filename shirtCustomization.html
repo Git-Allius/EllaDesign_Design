@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella Design | Customization</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Poppins Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="100px">
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <img src="images/cart.png" width="30px" height="30px" onclick="goToCart()">
+            <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+
+    <!-- Customization Form -->
+    <div class="pink-background">
+        <div class="container">
+            <div class="row">
+                <div id="shirt-container" class="shirt-container">
+                    <canvas id="canvas" width="512" height="512"></canvas>
+                    <img id="overlay" class="design-overlay">
+                    <br>
+                </div>
+                <div class="col-2">
+                    <div class="customizationapplication">
+                        <div class="form-title">
+                            <h4 id="customize">Customize</h4>
+                            <hr id="Customize-Indicator">
+                        </div>
+
+                        <form id="CustomizeForm">
+                            <p class="bottom">Pick Size:</p>
+                            <select id="shirtSize">
+                                <option value="">Select Size</option>
+                                <option>XXL</option>
+                                <option>XL</option>
+                                <option>L</option>
+                                <option>M</option>
+                                <option>S</option>
+                            </select>
+                            <p class="topbottom">Pick Color:</p>
+                            <select id="shirtColor">
+                                <option value="#ffffff">White</option>
+                                <option value="#000000">Black</option>
+                                <option value="#ff0000">Red</option>
+                                <option value="#12237e">Blue</option>
+                                <option value="#808080">Grey</option>
+                            </select>
+                            <p class="top">Enter Logo/Image:</p>
+                            <input type="file" id="fileInput" accept="image/*">
+                            <p class="bottom">Logo/Image Position:</p>
+                            <select id="imagePosition">
+                                <option value="">Select Position</option>
+                                <option>Front</option>
+                                <option>Front - Right</option>
+                                <option>Front - Left</option>
+                                <option>Back</option>
+                                <option>Right Sleeve</option>
+                                <option>Left Sleeve</option>
+                            </select>
+                            <p class="top">Enter Your Text:</p>
+                            <input id="customText" type="text">
+                            <p class="bottom">Text Position:</p>
+                            <select id="textPosition">
+                                <option value=""></option>
+                                <option>Front</option>
+                                <option>Front - Right</option>
+                                <option>Front - Left</option>
+                                <option>Back</option>
+                                <option>Right Sleeve</option>
+                                <option>Left Sleeve</option>
+                            </select>
+                            <p class="topbottom">Text Font:</p>
+                            <select id="fontSelect">
+                                <option>Select Font</option>
+                                <option class="arial">Arial</option>
+                                <option class="courier">Courier</option>
+                                <option class="gillsans">Gill Sans</option>
+                                <option class="segoeui">Segoe UI</option>
+                                <option class="timesnewroman">Times New Roman</option>
+                                <option class="lucida">Lucida Sans</option>
+                                <option class="trebuchet">Trebuchet MS</option>
+                                <option class="impact">Impact</option>
+                                <option class="cambria">Cambria</option>
+                                <option class="verdana">Verdana</option>
+                            </select>
+                            <p class="topbottom">Extra Requests:</p>
+                            <textarea id="comments"></textarea>
+                            <button type="submit" class="btn">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Looking for more products?</h3>
+                    <a href="https://etsy.com/shop/polymerdesignbyella">Visit in Etsy as well!</a>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png">
+                    <p>
+                        The joy of picking the gift, the excitement of knowing that it will be delivered to a loved one's 
+                        front door as a surprise, and the pleasure of knowing they will have a huge smile when they open the 
+                        box... all of it is why my shop exists!
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow for more!</h3>
+                    <a href="https://www.instagram.com/designsbyellac/">Instagram</a>
+                </div>
+            </div>
+
+            <hr>
+            <p class="copyright">Copyright 2026 - CUADROS</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+<!------ Change Color Script ------> 
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const img = new Image();
+    img.src = 'images/shirt.png';
+
+    const colorSelect = document.getElementById('shirtColor');
+
+    img.onload = () => {
+        drawShirt(colorSelect.value); // draw default color on page load
+    };
+
+    colorSelect.addEventListener('change', (e) => {
+        drawShirt(e.target.value);
+    });
+
+    function drawShirt(color) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        const rNew = parseInt(color.substr(1,2),16);
+        const gNew = parseInt(color.substr(3,2),16);
+        const bNew = parseInt(color.substr(5,2),16);
+
+        for (let i = 0; i < data.length; i += 4) {
+            const alpha = data[i+3];
+            if (alpha > 0) {
+                const brightness = (data[i] + data[i+1] + data[i+2]) / 765;
+                data[i] = rNew * brightness;
+                data[i+1] = gNew * brightness;
+                data[i+2] = bNew * brightness;
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+    }
+</script>
+
+<!-- Collect data from form -->
+<script>
+    document.getElementById("CustomizeForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+    
+        // customizations
+        const shirtSize = document.getElementById("shirtSize").value;
+        const shirtColor = document.getElementById("shirtColor").value;
+        const fileInput = document.getElementById("fileInput").value;
+        const imagePosition = document.getElementById("imagePosition").value;
+        const customText = document.getElementById("customText").value;
+        const textPosition = document.getElementById("textPosition").value;
+        const fontSelect = document.getElementById("fontSelect").value;
+        const comments = document.getElementById("comments").value;
+        const previewImage = "images/shirt.png"
+        const price = 25.00;
+    
+        // Create a cart item object
+        const cartItem = {
+            previewImage: previewImage, 
+            name: "Custom Shirt",
+            price: price,
+            quantity: 1,
+            details: {
+                size: shirtSize,
+                color: shirtColor,
+                image: fileInput,
+                imagePosition: imagePosition,
+                customText: customText,
+                textPosition: textPosition,
+                font: fontSelect,
+                comments: comments
+            }
+        };
+    
+        // Get existing cart data or start fresh
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    
+        // Add new item
+        cart.push(cartItem);
+    
+        // Save back to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+    
+        // Redirect to cart page
+        window.location.href = "cart.html";
+    });
+</script>

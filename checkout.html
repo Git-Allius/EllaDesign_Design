@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ella Design | Checkout</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Poppins Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <img src="images/logo.png" width="100px">
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+            </nav>
+            <img src="images/cart.png" width="30px" height="30px" onclick="goToCart()">
+            <img src="images/menu.png" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+
+    <!-- Checkout -->
+    <div class="pink-background">
+        <div class="small-container">
+            <div class="col-2" id="small-container">
+                <div class="payment">
+                    <div class="form-title">
+                        <h4 id="payment">Payment</h4>
+                        <hr id="Payment-Indicator">
+                    </div>
+
+                    <form id="PaymentForm">
+                        <input type="text" placeholder="First Name" required>
+                        <input type="text" placeholder="Last Name" required>
+                        <input type="text" placeholder="Street Address" required>
+                        <input type="text" placeholder="ZIP/Postal Code (optional)">
+                        <input type="text" placeholder="City" required>
+                        <input type="text" placeholder="State" required>
+                        <input type="phone" placeholder="Phone Number" required>
+                        <input type="email" placeholder="Email" required>
+
+                        <div id="orderSummary" class="form-title">
+                            <hr id="Payment-Indicator">
+                            <h4 id="payment">Your Order</h4>
+
+                            <div id="orderItems"></div>
+                            <hr id="Payment-Indicator">
+
+                            <div class="subtaxtotal">
+                                <table>
+                                    <tr>
+                                        <td>Subtotal</td>
+                                        <td><span id="ck-subtotal">$0.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tax</td>
+                                        <td><span id="ck-tax">$0.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td><span id="ck-total">$0.00</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <button class="btn" onclick="goToVenmo(); return false;" type="button">Pay with Venmo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <h3>Looking for more products?</h3>
+                    <a href="https://etsy.com/shop/polymerdesignbyella">Visit in Etsy as well!</a>
+                </div>
+                <div class="footer-col-2">
+                    <img src="images/logo.png">
+                    <p>
+                        The joy of picking the gift, the excitement of knowing that it will be delivered to a loved one's 
+                        front door as a surprise, and the pleasure of knowing they will have a huge smile when they open the 
+                        box... all of it is why my shop exists!
+                    </p>
+                </div>
+                <div class="footer-col-3">
+                    <h3>Follow for more!</h3>
+                    <a href="https://www.instagram.com/designsbyellac/">Instagram</a>
+                </div>
+            </div>
+
+            <hr>
+            <p class="copyright">Copyright 2026 - CUADROS</p>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- JavaScript -->
+<script src="script.js"></script>
+
+<!-- Render Order Summary -->
+<script>
+    function renderCheckoutSummary() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const itemsDiv = document.getElementById("orderItems");
+    
+        if (!itemsDiv) return;
+    
+        // Show empty state
+        if (cart.length === 0) {
+            itemsDiv.innerHTML = "<p>Your cart is empty.</p>";
+            document.getElementById("ck-subtotal").textContent = "$0.00";
+            document.getElementById("ck-tax").textContent = "$0.00";
+            document.getElementById("ck-total").textContent = "$0.00";
+            return;
+        }
+    
+        // Build list of items
+        let html = '<ul style="list-style: none; padding-left: 0;">';
+        let subtotal = 0;
+    
+        cart.forEach((item) => {
+            const lineTotal = item.price * item.quantity;
+            subtotal += lineTotal;
+    
+            // Compact line label for Venmo note + on-page display
+            const labelParts = [
+            item.name,
+            item.details?.shirtColor,
+            item.details?.shirtSize,
+            item.details?.customText ? `Text:"${item.details.customText}"` : null,
+            item.details?.image ? `Img:${item.details.image}` : null
+            ].filter(Boolean);
+    
+            html += `
+            <li style="margin: 6px 0;">
+                ${item.quantity} × ${labelParts.join(" ")} — $${lineTotal.toFixed(2)}
+            </li>`;
+        });
+    
+        html += "</ul>";
+    
+        const tax = subtotal * 0.07; 
+        const total = subtotal + tax;
+    
+        itemsDiv.innerHTML = html;
+        document.getElementById("ck-subtotal").textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById("ck-tax").textContent = `$${tax.toFixed(2)}`;
+        document.getElementById("ck-total").textContent = `$${total.toFixed(2)}`;
+    }
+  
+    // Build a concise Venmo note from the cart
+    function buildVenmoNoteFromCart(cart) {
+        if (!cart || cart.length === 0) return "Order from Ella Design";
+    
+        const parts = cart.map(item => {
+            const bits = [
+            `${item.quantity}x`,
+            item.name,
+            item.details?.shirtColor,
+            item.details?.shirtSize
+            ].filter(Boolean);
+            return bits.join(" ");
+        });
+    
+        let note = parts.join("; ");
+    
+        const extras = cart
+            .map(i => {
+            const e = [];
+            if (i.details?.customText) e.push(`Text:"${i.details.customText}"`);
+            if (i.details?.image) e.push(`Img:${i.details.image}`);
+            return e.join(" ");
+            })
+            .filter(Boolean)
+            .join("; ");
+    
+        if (extras && (note.length + extras.length) < 230) {
+            note += ` | ${extras}`;
+        }
+  
+        return note;
+    }
+  
+    function goToVenmo() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let subtotal = 0;
+        cart.forEach(item => subtotal += item.price * item.quantity);
+        const tax = subtotal * 0.07;
+        const total = subtotal + tax;
+
+        const recipient = "@Ella-cuadros"; 
+        const amount = total.toFixed(2);   
+        const note = buildVenmoNoteFromCart(cart);
+
+        // Create Venmo payment link
+        const venmoUrl = `https://venmo.com/?txn=pay&recipients=${encodeURIComponent(recipient)}&amount=${encodeURIComponent(amount)}&note=${encodeURIComponent(note)}`;
+
+        // Redirect to Venmo
+        window.location.href = venmoUrl;
+    }
+  
+    // Prevent Enter key from submitting the form (keeps your original UX)
+    document.getElementById("PaymentForm").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") event.preventDefault();
+    });
+  
+    // Render summary on load
+    window.addEventListener("load", renderCheckoutSummary);
+</script>
