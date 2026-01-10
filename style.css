@@ -890,6 +890,16 @@ td:last-child {
         display: block;
         cursor: pointer;
     }
+
+    #small-container {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+    #small-container .col-2 {
+        width: 100%;
+        margin: 0 auto;
+    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -905,6 +915,10 @@ td:last-child {
 
     .footer {
         flex-basis: 100%;
+    }
+
+    .footer-col-2 {
+        padding: 20px;
     }
 
     .single-product .row {
@@ -930,15 +944,16 @@ td:last-child {
         text-align: left;
     }
 
-    #small-container {
-        width: 300px;
-        text-align: center;
-        padding-left: 10px;
+    #small-container,
+    #small-container .col-2 {
+        width: 90%;       
+        max-width: 350px;
+        margin: 0 auto;   
     }
 
-    #small-container .col-2 {
-        width: 300px;
-        text-align: center;
+    .contact, .payment {
+        width: 100%;     
+        min-width: unset;
     }
 
     #small-container .contact {
