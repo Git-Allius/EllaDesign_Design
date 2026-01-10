@@ -908,9 +908,12 @@ td:last-child {
     }
 
     .col,
-    .col-2,
     .col-3 {
         flex-basis: 100%;
+    }
+
+    .col-2 {
+        flex-basis: 80%;
     }
 
     .footer {
